@@ -2,12 +2,13 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const fs = require('fs');
 const app = express();
 
 // Config
 const host = require('./configs/server/host');
 const mlab = require('./configs/db/mlab');
+const routes = require('./configs/routes/routes');
+const baseUrl = require('./configs/url/baseUrl');
 
 // Connect MongoDB
 mlab.openConnection;
@@ -18,15 +19,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Request Any Routes depend on URL path
-// app.use('/', require('./routers/bookRouter'));
-const r = require('./routers/routes');
-// console.log(r);
-r.forEach(rItem => {
-  // console.log(rItem);
-  app.use(`/`, rItem);
-});
+routes.forEach(route => { app.use(`${baseUrl}`, route); });
 
 // Running Server
 app.listen(host.port, () => {
-  console.log(`API running on ${host.hostname}:${host.port}/<route>`);
+  console.log(`API running on ${host.hostname}:${host.port}${baseUrl}<route>`);
 });
