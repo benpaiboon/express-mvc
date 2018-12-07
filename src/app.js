@@ -8,7 +8,7 @@ const app = express();
 const host = require('./configs/server/host');
 const mlab = require('./configs/db/mlab');
 const routes = require('./configs/routes/routes');
-const baseUrl = require('./configs/url/baseUrl');
+const rootUrl = require('./configs/url/rootUrl');
 
 // Connect MongoDB
 mlab.openConnection;
@@ -19,9 +19,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Request Any Routes depend on URL path
-routes.forEach(route => { app.use(`${baseUrl}`, route); });
+routes.forEach(route => { app.use(`${rootUrl}`, route); });
 
 // Running Server
 app.listen(host.port, () => {
-  console.log(`API running on ${host.hostname}:${host.port}${baseUrl}<route>`);
+  console.log(`API running on ${host.hostname}:${host.port}${rootUrl}`);
 });
