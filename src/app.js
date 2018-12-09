@@ -7,11 +7,13 @@ const app = express();
 // Config
 const host = require('./configs/server/host');
 const mlab = require('./configs/db/mlab');
-const routes = require('./configs/routes/routes');
 const rootUrl = require('./configs/url/rootUrl');
 
 // Connect MongoDB
 mlab.openConnection;
+
+// Load Routes
+const routes = require('./routers/init');
 
 //Init Middleware
 app.use(cors());
