@@ -20,8 +20,15 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Request Any Routes depend on URL path
+// Request any Rroutes depend on URL path
 routes.forEach(route => { app.use(`${rootUrl}`, route); });
+
+// Handling Errors 
+app.use((req, res) => {
+  const error = new Error('Not found the requested url.');
+  res.status(404 || 500);
+  res.json({ error: error.message });
+});
 
 // Running Server
 app.listen(host.port, () => {
